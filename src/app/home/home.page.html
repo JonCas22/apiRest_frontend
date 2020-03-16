@@ -1,20 +1,93 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
+
+<ion-header>
+  <title>Home</title>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div class="main-content">
+    
+    <h1 id="tableLabel">PEOPLE</h1>
+
+
+    <h3>Add Person</h3>
+    <form (submit)="addItem()" #loginForm="ngForm">
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <input type="text" class="form-control" id="id" name="id" [(ngModel)]="model.id" placeholder="Id" disabled>
+        </div>
+    
+        <div class="form-group col-md-2">
+          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="model.name" placeholder="Name" required>
+        </div>
+    
+        <div class="form-group col-md-1">
+          <input type="number" class="form-control" id="age" name="age" [(ngModel)]="model.age" placeholder="Age" required>
+        </div>
+    
+        <div class="form-group col-md-2">
+          <input type="text" class="form-control" id="city" name="city" [(ngModel)]="model.city" placeholder="City" required>
+        </div>
+
+        <div class="form-group col-md-2">
+          <select [(ngModel)]="model.province" class="form-control" id="province" name="province" required>
+            <option  *ngFor="let province of provinces" value="{{province}}">{{province}}</option>
+          </select>
+        </div>
+    
+        <div class="form-group col-md-2">
+          <input type="number" class="form-control" id="phone" name="phone" [(ngModel)]="model.phone" placeholder="Phone" required>
+        </div>
+    
+        <div class="col-auto">
+          <button type="submit" class="btn btn-success" [disabled]="loginForm.form.invalid">Send</button>
+        </div>
+    
+        <div class="col-auto">
+          <!-- Hay input type reset, pero falla al resetear y crear el objeto persona cada vez que se resetea-->
+          <button type="button" (click)="resetForm()" class="btn btn-primary">Reset</button>
+        </div>
+    
+      </div>
+    
+      <div class="form-row mg-bottom">
+    
+      </div>
+    </form>
+    
+    
+    <!--<p *ngIf="!people"><em>Loading...</em></p>-->
+    
+    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="people">
+      <thead>
+        <tr class="form-row">
+          <th class="col-md-2">Name</th>
+          <th class="col-md-1">Age</th>
+          <th class="col-md-2">Province</th>
+          <th class="col-md-2">City</th>
+          <th class="col-md-2">Number</th>
+          <th class="col-md-3">Actions</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let person of people" class="form-row">
+          <td class="col-md-2">{{ person.name }}</td>
+          <td class="col-md-1">{{ person.age }}</td>
+          <td class="col-md-2">{{ person.province}}</td>
+          <td class="col-md-2">{{ person.city }}</td>
+          <td class="col-md-2">{{ person.phone }}</td>
+          <td class="col-md-3">
+            <button type="button" (click)="presentToastWithOption(person.id)" class="btn btn-danger">Delete</button>
+            <button type="button" (click)="editItem(person)" style="margin-left: 10px;" class="btn btn-warning">Edit</button>
+            <button type="button" (click)="showItem(person)" style="margin-left: 10px;" class="btn btn-info">Show</button>
+          </td>
+    
+        </tr>
+      </tbody>
+    </table>
+
+  
   </div>
+
 </ion-content>
