@@ -1,3 +1,16 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-toolbar color="gestamp" class="margin">
+    <img src="../assets/images/gestamp.png" class="content-img" alt="gestamp" width="100px" slot="start">
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/home']">
+        <ion-title>Info</ion-title>
+      </ion-button>
+
+      <ion-button [routerLink]="['/login']">
+        <ion-title>Login</ion-title>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+  <ion-router-outlet class="margin-space"></ion-router-outlet>
 </ion-app>

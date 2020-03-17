@@ -12,14 +12,23 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalInfoComponent } from './modal-info/modal-info.component';
 import { ModalEditComponent } from './modal-edit/modal-edit.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePageModule } from './home/home.module';
 
 
 @NgModule({
   declarations: [AppComponent, ModalInfoComponent, ModalEditComponent],
   entryComponents: [ModalInfoComponent, ModalEditComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, FormsModule, HomePageModule],
+  exports: [FormsModule, ReactiveFormsModule],
+  imports: [
+  BrowserModule,
+    IonicModule.forRoot(), 
+    AppRoutingModule,
+    HttpClientModule,
+    HomePageModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   providers: [
     StatusBar,
     SplashScreen,
