@@ -3,6 +3,7 @@ import { ModalEditComponent } from '../modal-edit/modal-edit.component';
 import { ModalInfoComponent } from './../modal-info/modal-info.component';
 import { ToastController, ModalController } from '@ionic/angular';
 import { PersonaServiceService } from '../services/persona-service.service';
+import { UserServiceService } from '../services/user-service.service';
 
 @Component({
   selector: 'app-home',
@@ -11,18 +12,25 @@ import { PersonaServiceService } from '../services/persona-service.service';
 })
 export class HomePage {
 
-  private  people: Persona[];
+  private people: Persona[];
+  private users: User[];
   private searchPeopleList:Persona[];
   private provinces:string[]=["Andalusia", "Catalonia", "Community of Madrid", "Valencian Community", "Galicia", "Castile and León", "Basque Autonomous Community",
    "Castilla-La Mancha", "Canary Islands", "Region of Murcia", "Aragon", "Extremadura", "Balearic Islands", "Principality of Asturias", "Community of Navarre", "Cantabria", "La Rioja", "Ceuta", "Melilla"]
 
   private model: Persona = {id:undefined, name: undefined, city: undefined, age: undefined, phone: undefined, province: "Select Community"};
 
-  constructor(public personaService:PersonaServiceService, private toastController: ToastController, private modalController: ModalController) {
+  constructor(public personaService:PersonaServiceService, public userService:UserServiceService, private toastController: ToastController, private modalController: ModalController) {
     personaService.getAll().subscribe(data=>{
       this.people = data;
       this.searchPeopleList = data;
     });
+    userService.getAll().subscribe(data=>{
+      this.users = data;
+    });
+
+    
+    
   }
 
   customOptions: any = {
@@ -131,4 +139,13 @@ interface Persona {
   city: string;
   phone: number;
   province: string;
+}
+
+interface User {
+  id: number;
+  firstname: string;
+  lastname: string;
+  username: string;
+  password: string;
+  rol: string;
 }
