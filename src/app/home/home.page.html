@@ -83,37 +83,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div style="margin-top: 50px;">
-      <h2>Users</h2>
-
-    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="users">
-      <thead>
-        <tr class="form-row">
-          <th class="col-md-2">FirstName</th>
-          <th class="col-md-2">LastName</th>
-          <th class="col-md-2">Username</th>
-          <th class="col-md-3">Password</th>
-          <th class="col-md-3">Actions</th>
-    
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users" class="form-row">
-          <td class="col-md-2">{{ user.firstName }}</td>
-          <td class="col-md-2">{{ user.lastName }}</td>
-          <td class="col-md-2">{{ user.username}}</td>
-          <td class="col-md-3">{{ user.password }}</td>
-          <td class="col-md-3">
-            <button type="button" (click)="presentToastWithOption(user.id)" class="btn btn-danger">Delete</button>
-            <button type="button" (click)="editItem(user)" style="margin-left: 10px;" class="btn btn-warning">Edit</button>
-            <button type="button" (click)="showItem(user)" style="margin-left: 10px;" class="btn btn-info">Show</button>
-          </td>
-    
-        </tr>
-      </tbody>
-    </table>
-    </div>
       
   </div>
 

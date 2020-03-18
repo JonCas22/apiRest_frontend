@@ -3,11 +3,15 @@
     <img src="../assets/images/gestamp.png" class="content-img" alt="gestamp" width="100px" slot="start">
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/home']">
-        <ion-title>Info</ion-title>
+        <ion-icon name="file-tray-stacked-outline"></ion-icon><ion-text>Table</ion-text>
+      </ion-button>
+
+      <ion-button [routerLink]="['/users']">
+        <ion-icon name="people-circle-outline"></ion-icon><ion-text>Users</ion-text>
       </ion-button>
 
       <ion-button (click)="logout()">
-        <ion-title>Logout</ion-title>
+        <ion-icon name="log-out-outline"></ion-icon><ion-text>LogOut</ion-text>
       </ion-button>
     </ion-buttons>
     

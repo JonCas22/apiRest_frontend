@@ -19,13 +19,20 @@ export class LoginPage implements OnInit {
   error = '';
   
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private alertService: AlertService, 
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService) { 
+      this.loading = false;
+    }
+
+  ionViewWillEnter(){
+    this.ngOnInit();
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.loading = false;
   
   }
   
@@ -44,18 +51,17 @@ export class LoginPage implements OnInit {
 
     this.loading = true;
     
-    console.log(this.loginForm.value.username);
-    console.log(this.loginForm.value.password);
+    console.log(this.loginForm.value);
 
-    this.authenticationService.login(this.loginForm.value.username, this.loginForm.value.password)
+    this.authenticationService.login(this.f.username.value, this.f.password.value)
         .pipe(first())
         .subscribe(
-            data => {
-              console.log(data);
-              
-              this.router.navigate(["/home"]);
+            data => {            
+              this.router.navigate(["/"]);
             },
             error => {
+              console.log(error);
+              
                 this.error = error;
                 this.loading = false;
     });

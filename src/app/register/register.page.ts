@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
+import { UserServiceService } from '../services/user-service.service';
+import { User } from '../models/user';
 
 //import { MustMatch } from './_helpers/must-match.validator';
 
@@ -16,8 +18,9 @@ export class RegisterPage implements OnInit {
   loading = false;
   submitted = false;
 
+
   
-  constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private alertService: AlertService, private userService:UserServiceService) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -45,20 +48,15 @@ export class RegisterPage implements OnInit {
         return;
     }
 
-    this.loading = true;
+    //this.loading = true;
     console.log(this.registerForm.value);
+    var user:User = {firstname: this.registerForm.value.firstName, lastname: this.registerForm.value.lastName, username: this.registerForm.value.username, 
+      password: this.registerForm.value.password, rol: "default"};
+    console.log(user);
     
-    /*this.userService.register(this.registerForm.value)
-        .pipe(first())
-        .subscribe(
-            data => {
-                this.alertService.success('Registration successful', true);
-                this.router.navigate(['/login']);
-            },
-            error => {
-                this.alertService.error(error);
-                this.loading = false;
-            });
-      }*/
-    }
+    this.userService.addItem(user).subscribe(()=>{
+      this.router.navigate(["/login"]);
+    });
+    
+  }
 }

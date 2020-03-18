@@ -15,20 +15,28 @@ import { ModalEditComponent } from './modal-edit/modal-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePageModule } from './home/home.module';
 import { JwtInterceptor, ErrorInterceptor } from './_helpers';
+import { UsersPageModule } from './users/users.module';
+import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalEditUserComponent } from './modal-edit-user/modal-edit-user.component';
+
 
 
 @NgModule({
-  declarations: [AppComponent, ModalInfoComponent, ModalEditComponent],
-  entryComponents: [ModalInfoComponent, ModalEditComponent],
+  declarations: [AppComponent, ModalInfoComponent, ModalEditComponent, ModalEditUserComponent],
+  entryComponents: [ModalInfoComponent, ModalEditComponent, ModalEditUserComponent],
   exports: [FormsModule, ReactiveFormsModule],
   imports: [
-  BrowserModule,
+    BrowserModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpClientModule,
     HomePageModule,
+    UsersPageModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AccordionModule,
+    BrowserAnimationsModule
   ],
   providers: [
     StatusBar,
