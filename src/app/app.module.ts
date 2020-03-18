@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; 
 
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -14,6 +14,7 @@ import { ModalInfoComponent } from './modal-info/modal-info.component';
 import { ModalEditComponent } from './modal-edit/modal-edit.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePageModule } from './home/home.module';
+import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 
 
 @NgModule({
@@ -32,7 +33,9 @@ import { HomePageModule } from './home/home.module';
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

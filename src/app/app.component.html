@@ -1,13 +1,13 @@
 <ion-app>
-  <ion-toolbar color="gestamp" class="margin">
+  <ion-toolbar color="gestamp" class="margin" *ngIf="currentUser">
     <img src="../assets/images/gestamp.png" class="content-img" alt="gestamp" width="100px" slot="start">
     <ion-buttons slot="end">
       <ion-button [routerLink]="['/home']">
         <ion-title>Info</ion-title>
       </ion-button>
 
-      <ion-button [routerLink]="['/login']">
-        <ion-title>Login</ion-title>
+      <ion-button (click)="logout()">
+        <ion-title>Logout</ion-title>
       </ion-button>
     </ion-buttons>
     

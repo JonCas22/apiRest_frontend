@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -14,14 +16,16 @@ export class LoginPage implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  error = '';
   
-  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private alertService: AlertService) { }
+  constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private alertService: AlertService, 
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
-  });
+    });
   
   }
   
@@ -40,18 +44,21 @@ export class LoginPage implements OnInit {
 
     this.loading = true;
     
-    console.log(this.loginForm.value);
+    console.log(this.loginForm.value.username);
+    console.log(this.loginForm.value.password);
 
-    /*this.authenticationService.login(this.f.username.value, this.f.password.value)
+    this.authenticationService.login(this.loginForm.value.username, this.loginForm.value.password)
         .pipe(first())
         .subscribe(
             data => {
-                this.router.navigate([this.returnUrl]);
+              console.log(data);
+              
+              this.router.navigate(["/home"]);
             },
             error => {
-                this.alertService.error(error);
+                this.error = error;
                 this.loading = false;
-            });*/
+    });
 }
 
 }
