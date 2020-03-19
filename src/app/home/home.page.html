@@ -1,59 +1,60 @@
-
 <ion-content>
 
 
   <div class="main-content">
-    
-    <h1 id="tableLabel">PEOPLE</h1>
 
 
-    <h3>Add Person</h3>
-    <form (submit)="addItem()" #loginForm="ngForm">
-      <div class="form-row">
-        <div class="form-group col-md-1">
-          <input type="text" class="form-control" id="id" name="id" [(ngModel)]="model.id" placeholder="Id" disabled>
+    <p-fieldset legend="Add Person" [toggleable]="true">
+      <form (submit)="addItem()" #loginForm="ngForm">
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            <input type="text" class="form-control" id="id" name="id" [(ngModel)]="model.id" placeholder="Id" disabled>
+          </div>
+  
+          <div class="form-group col-md-2">
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="model.name" placeholder="Name"
+              required>
+          </div>
+  
+          <div class="form-group col-md-1">
+            <input type="number" class="form-control" id="age" name="age" [(ngModel)]="model.age" placeholder="Age"
+              required>
+          </div>
+  
+          <div class="form-group col-md-2">
+            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="model.city" placeholder="City"
+              required>
+          </div>
+  
+          <div class="form-group col-md-2">
+            <select [(ngModel)]="model.province" class="form-control" id="province" name="province" required>
+              <option *ngFor="let province of provinces" value="{{province}}">{{province}}</option>
+            </select>
+          </div>
+  
+          <div class="form-group col-md-2">
+            <input type="number" class="form-control" id="phone" name="phone" [(ngModel)]="model.phone"
+              placeholder="Phone" required>
+          </div>
+  
+          <div class="col-auto">
+            <button type="submit" class="btn btn-success" [disabled]="loginForm.form.invalid">Send</button>
+          </div>
+  
+          <div class="col-auto">
+            <!-- Hay input type reset, pero falla al resetear y crear el objeto persona cada vez que se resetea-->
+            <button type="button" (click)="resetForm()" class="btn btn-primary">Reset</button>
+          </div>
+  
         </div>
-    
-        <div class="form-group col-md-2">
-          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="model.name" placeholder="Name" required>
+  
+        <div class="form-row mg-bottom">
+  
         </div>
-    
-        <div class="form-group col-md-1">
-          <input type="number" class="form-control" id="age" name="age" [(ngModel)]="model.age" placeholder="Age" required>
-        </div>
-    
-        <div class="form-group col-md-2">
-          <input type="text" class="form-control" id="city" name="city" [(ngModel)]="model.city" placeholder="City" required>
-        </div>
+      </form>
+  </p-fieldset>
 
-        <div class="form-group col-md-2">
-          <select [(ngModel)]="model.province" class="form-control" id="province" name="province" required>
-            <option  *ngFor="let province of provinces" value="{{province}}">{{province}}</option>
-          </select>
-        </div>
-    
-        <div class="form-group col-md-2">
-          <input type="number" class="form-control" id="phone" name="phone" [(ngModel)]="model.phone" placeholder="Phone" required>
-        </div>
-    
-        <div class="col-auto">
-          <button type="submit" class="btn btn-success" [disabled]="loginForm.form.invalid">Send</button>
-        </div>
-    
-        <div class="col-auto">
-          <!-- Hay input type reset, pero falla al resetear y crear el objeto persona cada vez que se resetea-->
-          <button type="button" (click)="resetForm()" class="btn btn-primary">Reset</button>
-        </div>
-    
-      </div>
-    
-      <div class="form-row mg-bottom">
-    
-      </div>
-    </form>
-    
-    
-    <!--<p *ngIf="!people"><em>Loading...</em></p>-->
+    <!--<p *ngIf="!people"><em>Loading...</em></p>
     
     <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="people">
       <thead>
@@ -82,8 +83,61 @@
     
         </tr>
       </tbody>
-    </table>
-      
+    </table>-->
+
+      <p-table #dt [value]="people" [paginator]="true" [rows]="10" dataKey="phone" selectionMode="single"
+        [(selection)]="selectedPerson">
+        <div class="resize">
+    
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of cols" [pSortableColumn]="col.field" [ngSwitch]="col.field">
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                    <input *ngSwitchCase="'name'" pInputText type="text" placeholder="Contains" class="ui-column-filter" style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    <input *ngSwitchCase="'age'" pInputText type="text" placeholder="Contains" class="ui-column-filter" style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    <input *ngSwitchCase="'city'" pInputText type="text" placeholder="Contains" class="ui-column-filter" style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    <input *ngSwitchCase="'phone'" pInputText type="text" placeholder="Contains" class="ui-column-filter" style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                    <p-dropdown *ngSwitchCase="'province'" [options]="provincesDrop" styleClass="ui-column-filter" [showClear]="true" [style]="{'width':'100%'}" placeholder="Select Province" (onChange)="dt.filter($event.value, col.field, 'equals')">
+                      <ng-template let-item pTemplate="item">
+                          <div class="ui-helper-clearfix" style="position: relative; height: 25px; width: max-content;">
+                              <div style="font-size:14px;float:left;margin-top:4px">{{item.label}}</div>
+                          </div>
+                      </ng-template>
+                  </p-dropdown>
+                </th>
+                <th style="width: 8em; text-align: center;">
+                    <button pButton type="button" icon="pi pi-cog"></button>
+                </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-person>
+            <tr>
+              <td>{{person.name}}</td>
+              <td>{{person.age}}</td>
+              <td>{{person.province}}</td>
+              <td>{{person.city}}</td>
+              <td>{{person.phone}}</td>
+              <td class="center">
+                <button type="button" (click)="presentToastWithOption(person.id)" class="btn btn-danger">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </button>
+                <button type="button" (click)="editItem(person)" style="margin: 5px;" class="btn btn-warning">
+                  <ion-icon name="build-outline"></ion-icon>
+                </button>
+                <button type="button" (click)="showItem(person)" class="btn btn-info">
+                  <ion-icon name="eye-outline"></ion-icon>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </div>
+    </p-table>
+
+    <div class="space">
+      <p-chart type="radar" [data]="data"></p-chart>
+    </div>
+
   </div>
 
 </ion-content>

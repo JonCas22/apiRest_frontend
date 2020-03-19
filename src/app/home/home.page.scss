@@ -1,6 +1,30 @@
 .main-content{
   margin: 25px;
+  margin-top: 65px;
 }
+
+.center{
+  text-align: center;
+}
+
+@media only screen and (min-width: 992px) {}
+
 * {
   font-size: 1.2vw;
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
+
+.resize{
+  width: 50%;
+  margin: auto;
+}
+
+.resize-font{
+  font-size: 20px;
+}
+.space{
+  margin: 20px;
 }

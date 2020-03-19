@@ -15,8 +15,12 @@ export class HomePage {
 
   private people: Persona[];
   private loggedUser:any;
+  private selectedPerson:Persona;
   private searchPeopleList:Persona[];
-  private provinces:string[]=["Andalusia", "Catalonia", "Community of Madrid", "Valencian Community", "Galicia", "Castile and León", "Basque Autonomous Community",
+  private cols: any[];
+  private data:any;
+  private provincesDrop:any[]
+  private provinces:String[]=["Andalusia", "Catalonia", "Community of Madrid", "Valencian Community", "Galicia", "Castile and León", "Basque Autonomous Community",
    "Castilla-La Mancha", "Canary Islands", "Region of Murcia", "Aragon", "Extremadura", "Balearic Islands", "Principality of Asturias", "Community of Navarre", "Cantabria", "La Rioja", "Ceuta", "Melilla"]
 
   private model: Persona = {id:undefined, name: undefined, city: undefined, age: undefined, phone: undefined, province: "Select Community"};
@@ -27,6 +31,62 @@ export class HomePage {
       this.people = data;
       this.searchPeopleList = data;
     });
+
+    this.cols = [
+      { field: 'name', header: 'Nane' },
+      { field: 'age', header: 'Age' },
+      { field: 'province', header: 'Province' },
+      { field: 'city', header: 'City' },
+      { field: 'phone', header: 'Number' }
+    ];
+
+    this.provincesDrop = [
+      { label: 'Andalusia', value: 'Andalusia' },
+      { label: 'Catalonia', value: 'Catalonia' },
+      { label: 'Community of Madrid', value: 'Community of Madrid' },
+      { label: 'Valencian Community', value: 'Valencian Community' },
+      { label: 'Galicia', value: 'Galicia' },
+      { label: 'Castile and León', value: 'Castile and León' },
+      { label: 'Basque Autonomous Community', value: 'Basque Autonomous Community' },
+      { label: 'Castilla-La Mancha', value: 'Castilla-La Mancha' },
+      { label: 'Canary Islands', value: 'Canary Islands' },
+      { label: 'Region of Murcia', value: 'Region of Murcia' },
+      { label: 'Aragon', value: 'Aragon' },
+      { label: 'Extremadura', value: 'Extremadura' },
+      { label: 'Balearic Islands', value: 'Balearic Islands' },
+      { label: 'Principality of Asturias', value: 'Principality of Asturias' },
+      { label: 'Community of Navarre', value: 'Community of Navarre' },
+      { label: 'Cantabria', value: 'Cantabria' },
+      { label: 'La Rioja', value: 'La Rioja' },
+      { label: 'Ceuta', value: 'Ceuta' },
+      { label: 'Melilla', value: 'Melilla' },
+    ];
+
+    this.data = {
+      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+      datasets: [
+          {
+              label: 'My First dataset',
+              backgroundColor: 'rgba(179,181,198,0.2)',
+              borderColor: 'rgba(179,181,198,1)',
+              pointBackgroundColor: 'rgba(179,181,198,1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(179,181,198,1)',
+              data: [65, 59, 90, 81, 56, 55, 40]
+          },
+          {
+              label: 'My Second dataset',
+              backgroundColor: 'rgba(255,99,132,0.2)',
+              borderColor: 'rgba(255,99,132,1)',
+              pointBackgroundColor: 'rgba(255,99,132,1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(255,99,132,1)',
+              data: [28, 48, 40, 19, 96, 27, 100]
+          }
+      ]
+  };
 
     this.loggedUser = authService.currentUserValue;
     //console.log(this.loggedUser);    

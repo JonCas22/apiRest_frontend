@@ -27,7 +27,7 @@ import { ModalEditUserComponent } from './modal-edit-user/modal-edit-user.compon
   entryComponents: [ModalInfoComponent, ModalEditComponent, ModalEditUserComponent],
   exports: [FormsModule, ReactiveFormsModule],
   imports: [
-    BrowserModule,
+  BrowserModule,
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpClientModule,
@@ -36,7 +36,7 @@ import { ModalEditUserComponent } from './modal-edit-user/modal-edit-user.compon
     FormsModule,
     ReactiveFormsModule,
     AccordionModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
     StatusBar,

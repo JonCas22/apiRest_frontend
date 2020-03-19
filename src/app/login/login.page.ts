@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { first } from 'rxjs/operators';
+import { MessageService, Message } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -17,9 +18,10 @@ export class LoginPage implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+  msgs: Message[] = [];
   
   constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private alertService: AlertService, 
-    private authenticationService: AuthenticationService) { 
+    private authenticationService: AuthenticationService, private messageService: MessageService) { 
       this.loading = false;
     }
 
@@ -61,10 +63,13 @@ export class LoginPage implements OnInit {
             },
             error => {
               console.log(error);
-              
-                this.error = error;
-                this.loading = false;
+              this.msgs = [];
+              this.msgs.push({severity:'error', summary:'Error', detail:'Login failed'});
+              this.error = error;
+              this.loading = false;
     });
+
+
 }
 
 }
