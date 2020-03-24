@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserServiceService {
 
-  private url:string = "http://localhost:5000";
+  private url:string = "https://localhost:5001";
 
   constructor(private http:HttpClient) {}
 
@@ -15,24 +16,16 @@ export class UserServiceService {
   }
 
   addItem(user){
-    return this.http.post<User[]>(this.url + '/users/', user)
+    return this.http.post<User>(this.url + '/users/', user);
   }
 
   deleteItem(id:number){
-    return this.http.delete<User[]>(this.url + '/users/' +id)
+    return this.http.delete<User>(this.url + '/users/' + id);
   }
 
-  editItem(user){
-    return this.http.put<User[]>(this.url + '/users/', user)
+  editItem(id, user){
+    console.log(user);
+    return this.http.put(this.url + '/users/' + id, user);
   }
 
-}
-
-interface User {
-  id: number;
-  firstname: string;
-  lastname: string;
-  username: string;
-  password: string;
-  rol: string;
 }

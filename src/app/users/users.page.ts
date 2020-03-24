@@ -49,22 +49,29 @@ export class UsersPage implements OnInit {
   addItem(){
     console.log(this.model);
     this.userService.addItem(this.model).subscribe(data=>{
-      this.users = data;
+      console.log(data);
+      console.log(this.users);
+      
+      this.users.push(data);
     });
   }
 
-  confirmDelete(id:number) {
+  confirmDelete(id:number, userToDelete) {
     this.confirmationService.confirm({
         message: 'Are you sure that you want to delete?',
         accept: () => {
           this.userService.deleteItem(id).subscribe(data=>{
-            this.users = data;
+              var index = this.users.indexOf(userToDelete, 0);
+              if (index > -1) {
+                this.users.splice(index, 1);
+              }
+
           });
         }
     });
   }
 
-  async editItem(user){
+  async editItem(id:number, user){
     console.log(user);
     
     const modal = await this.modalController.create({
@@ -81,9 +88,9 @@ export class UsersPage implements OnInit {
     console.log(data.user);
 
     if(data.user){
-      this.userService.editItem(data.user).subscribe(data=>{
-        this.users = data;
-      });
+      console.log("Editing " + id);
+      
+      this.userService.editItem(id, data.user).subscribe(res=>{});
     }else{
       this.userService.getAll().subscribe(data=>{
         this.users = data;

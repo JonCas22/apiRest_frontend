@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Persona } from '../models/persona';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonaServiceService {
 
-  private url:string = "http://localhost:5000";
+  private url:string = "https://localhost:5001";
 
   constructor(private http:HttpClient) {}
 
@@ -15,24 +16,15 @@ export class PersonaServiceService {
   }
 
   addItem(person){
-    return this.http.post<Persona[]>(this.url + '/personas/', person)
+    return this.http.post<Persona>(this.url + '/personas/', person)
   }
 
   deleteItem(id:number){
-    return this.http.delete<Persona[]>(this.url + '/personas/' +id)
+    return this.http.delete<Persona>(this.url + '/personas/' +id)
   }
 
-  editItem(person){
-    return this.http.put<Persona[]>(this.url + '/personas/', person)
+  editItem(id, person){
+    return this.http.put<Persona>(this.url + '/personas/' + id, person)
   }
 
-}
-
-interface Persona {
-  id: number;
-  name: string;
-  age: number;
-  city: string;
-  phone: number;
-  province: string;
 }

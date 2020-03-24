@@ -70,8 +70,8 @@
           <td class="col-md-2">{{ user.password }}</td>
           <td class="col-md-2">{{ user.rol }}</td>
           <td class="col-md-2">
-            <button type="button" (click)="confirmDelete(user.id)" class="btn btn-danger">Delete</button>
-            <button type="button" (click)="editItem(user)" style="margin-left: 10px;" class="btn btn-warning">Edit</button>
+            <button type="button" (click)="confirmDelete(user.id, user)" class="btn btn-danger">Delete</button>
+            <button type="button" (click)="editItem(user.id, user)" style="margin-left: 10px;" class="btn btn-warning">Edit</button>
           </td>
     
         </tr>

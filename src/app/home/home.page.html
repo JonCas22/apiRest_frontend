@@ -53,38 +53,6 @@
         </div>
       </form>
   </p-fieldset>
-
-    <!--<p *ngIf="!people"><em>Loading...</em></p>
-    
-    <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="people">
-      <thead>
-        <tr class="form-row">
-          <th class="col-md-2">Name</th>
-          <th class="col-md-1">Age</th>
-          <th class="col-md-2">Province</th>
-          <th class="col-md-2">City</th>
-          <th class="col-md-2">Number</th>
-          <th class="col-md-3">Actions</th>
-    
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let person of people" class="form-row">
-          <td class="col-md-2">{{ person.name }}</td>
-          <td class="col-md-1">{{ person.age }}</td>
-          <td class="col-md-2">{{ person.province}}</td>
-          <td class="col-md-2">{{ person.city }}</td>
-          <td class="col-md-2">{{ person.phone }}</td>
-          <td class="col-md-3">
-            <button type="button" (click)="presentToastWithOption(person.id)" class="btn btn-danger">Delete</button>
-            <button type="button" (click)="editItem(person)" style="margin-left: 10px;" class="btn btn-warning">Edit</button>
-            <button type="button" (click)="showItem(person)" style="margin-left: 10px;" class="btn btn-info">Show</button>
-          </td>
-    
-        </tr>
-      </tbody>
-    </table>-->
-
       <p-table #dt [value]="people" [paginator]="true" [rows]="10" dataKey="phone" selectionMode="single"
         [(selection)]="selectedPerson">
         <div class="resize">
@@ -119,10 +87,10 @@
               <td>{{person.city}}</td>
               <td>{{person.phone}}</td>
               <td class="center">
-                <button type="button" (click)="presentToastWithOption(person.id)" class="btn btn-danger">
+                <button type="button" (click)="presentToastWithOption(person.id, person)" class="btn btn-danger">
                   <ion-icon name="trash-outline"></ion-icon>
                 </button>
-                <button type="button" (click)="editItem(person)" style="margin: 5px;" class="btn btn-warning">
+                <button type="button" (click)="editItem(person.id, person)" style="margin: 5px;" class="btn btn-warning">
                   <ion-icon name="build-outline"></ion-icon>
                 </button>
                 <button type="button" (click)="showItem(person)" class="btn btn-info">
@@ -135,7 +103,7 @@
     </p-table>
 
     <div class="space">
-      <p-chart type="radar" [data]="data"></p-chart>
+      <p-chart type="bar" [data]="data"></p-chart>
     </div>
 
   </div>

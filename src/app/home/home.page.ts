@@ -5,6 +5,7 @@ import { ToastController, ModalController } from '@ionic/angular';
 import { PersonaServiceService } from '../services/persona-service.service';
 import { UserServiceService } from '../services/user-service.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { Persona } from '../models/persona';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomePage {
   private cols: any[];
   private data:any;
   private provincesDrop:any[]
-  private provinces:String[]=["Andalusia", "Catalonia", "Community of Madrid", "Valencian Community", "Galicia", "Castile and León", "Basque Autonomous Community",
+  private dataChart = [];
+  private provinces:string[]=["Andalusia", "Catalonia", "Community of Madrid", "Valencian Community", "Galicia", "Castile and León", "Basque Autonomous Community",
    "Castilla-La Mancha", "Canary Islands", "Region of Murcia", "Aragon", "Extremadura", "Balearic Islands", "Principality of Asturias", "Community of Navarre", "Cantabria", "La Rioja", "Ceuta", "Melilla"]
 
   private model: Persona = {id:undefined, name: undefined, city: undefined, age: undefined, phone: undefined, province: "Select Community"};
@@ -30,6 +32,8 @@ export class HomePage {
     personaService.getAll().subscribe(data=>{
       this.people = data;
       this.searchPeopleList = data;
+      this.getData_ForPerson_PerCapital();
+
     });
 
     this.cols = [
@@ -63,33 +67,45 @@ export class HomePage {
     ];
 
     this.data = {
-      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+      labels: this.provinces,
       datasets: [
           {
-              label: 'My First dataset',
-              backgroundColor: 'rgba(179,181,198,0.2)',
-              borderColor: 'rgba(179,181,198,1)',
-              pointBackgroundColor: 'rgba(179,181,198,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(179,181,198,1)',
-              data: [65, 59, 90, 81, 56, 55, 40]
-          },
-          {
-              label: 'My Second dataset',
-              backgroundColor: 'rgba(255,99,132,0.2)',
-              borderColor: 'rgba(255,99,132,1)',
-              pointBackgroundColor: 'rgba(255,99,132,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(255,99,132,1)',
-              data: [28, 48, 40, 19, 96, 27, 100]
+              label: 'Registered people per Capital',
+              backgroundColor: '#42A5F5',
+              borderColor: '#1E88E5',
+              data: this.dataChart
           }
       ]
   };
 
     this.loggedUser = authService.currentUserValue;
     //console.log(this.loggedUser);    
+  }
+
+  getData_ForPerson_PerCapital(){
+    
+    var provincesDataObject: {name:string, number:number}[] = [];
+    this.provinces.forEach(element=>{
+      var object = {name: element, number:0};
+      provincesDataObject.push(object);
+    })
+
+    this.people.forEach(person=>{
+      provincesDataObject.forEach(provinces=>{
+        if(person.province==provinces.name){
+          provinces.number+=1;
+        }
+      })
+    });
+
+    provincesDataObject.forEach(element => {
+      this.dataChart.push(element.number);
+    });
+
+    //console.log(provincesDataObject);
+    //console.log(this.dataChart);
+    
+    return this.dataChart;
   }
 
   customOptions: any = {
@@ -105,7 +121,7 @@ export class HomePage {
     toast.present();
   }
 
-  async presentToastWithOption(id) {
+  async presentToastWithOption(id, personToDelete) {
     const toast = await this.toastController.create({
       header: 'Delete',
       message: "Are you sure deleting this person?",
@@ -123,7 +139,7 @@ export class HomePage {
           role: 'success',
           handler: () => {
             console.log('Delete clicked');
-            this.deleteItem(id);
+            this.deleteItem(id, personToDelete);
           }
         }
       ]
@@ -131,17 +147,20 @@ export class HomePage {
     toast.present();
   }
    
-  deleteItem(id:number){
+  deleteItem(id:number, personToDelete){
     console.log(id);
     this.personaService.deleteItem(id).subscribe(data=>{
-      this.people = data;
+        var index = this.people.indexOf(personToDelete, 0);        
+        if (index > -1) {
+          this.people.splice(index, 1);
+        }
     });
   }
 
   addItem(){
     console.log(this.model);
     this.personaService.addItem(this.model).subscribe(data=>{
-      this.people = data;
+      this.people.push(data);
     });
   }
 
@@ -157,7 +176,7 @@ export class HomePage {
     return await modal.present();
   } 
 
-  async editItem(person){
+  async editItem(id, person){
     console.log(person);
     
     const modal = await this.modalController.create({
@@ -174,9 +193,7 @@ export class HomePage {
     console.log(data.person);
 
     if(data.person){
-      this.personaService.editItem(data.person).subscribe(data=>{
-        this.people = data;
-      });
+      this.personaService.editItem(id, data.person).subscribe(data=>{});
     }else{
       this.personaService.getAll().subscribe(data=>{
         this.people = data;
@@ -189,13 +206,4 @@ export class HomePage {
     this.model = {id:undefined, name: undefined, city: undefined, age: undefined, phone: undefined, province: "Select Community"};
   }
 
-}
-
-interface Persona {
-  id: number;
-  name: string;
-  age: number;
-  city: string;
-  phone: number;
-  province: string;
 }
